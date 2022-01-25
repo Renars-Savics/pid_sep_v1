@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes"/>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+
+  <script type="text/javascript">
+        function tableToCSV() {
+
+            // Variable to store the final csv data
+            var csv_data = [];
+
+            // Get each row data
+            var rows = document.getElementsByTagName('tr');
+            for (var i = 0; i < rows.length; i++) {
+
+                // Get each column data
+                var cols = rows[i].querySelectorAll('td,th');
+
+                // Stores each csv row data
+                var csvrow = [];
+                for (var j = 0; j < cols.length; j++) {
+
+                    // Get the text data of each cell
+                    // of a row and push it to csvrow
+                    csvrow.push(cols[j].innerHTML);
+                }
+
+                // Combine each column value with comma
+                csv_data.push(csvrow.join(","));
+
+            }
+
+            // Combine each row data with new line character
+            csv_data = csv_data.join('\n');
+
+
+
+            // Call this function to download csv file
+            downloadCSVFile(csv_data);
+
+        }
+
+        function downloadCSVFile(csv_data) {
+
+            // Create CSV file object and feed
+            // our csv_data into it
+            CSVFile = new Blob([csv_data], {
+                type: "text/csv"
+            });
+
+            // Create to temporary link to initiate
+            // download process
+            var temp_link = document.createElement('a');
+
+            // Download csv file
+            temp_link.download = "output.csv";
+            var url = window.URL.createObjectURL(CSVFile);
+            temp_link.href = url;
+
+            // This link should not be displayed
+            temp_link.style.display = "none";
+            document.body.appendChild(temp_link);
+
+            // Automatically click the link to
+            // trigger download
+            temp_link.click();
+            document.body.removeChild(temp_link);
+        }
+    </script>
+
+</head>
+<body>
+<div class="container h-100 d-flex justify-content-center align-items-center">
+  <div>
+    <div class="container p-5 ">
+      <h2>File Upload Status</h2>
+
+      <!--display error if any-->
+      <div class="alert alert-danger" role="alert" th:if="${!status}">
+        <strong>Error:</strong>
+        <span th:text="${message}"></span>
+      </div>
+
+      <!--display tables list-->
+      <table class="table-responsive table table-hover " th:if="${status}">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Pid</th>
+          <th scope="col">Layer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="table, i : ${tables2}">
+          <td th:text="${table.pid}"></td>
+          <td th:text="${table.layer}"></td>
+        </tr>
+        <div class="container p-1 ">
+        <button class="btn btn-warning" onclick="tableToCSV()">
+          Download CSV
+        </button>
+        </div>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

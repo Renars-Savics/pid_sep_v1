@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <title>PID_SEP_v1</title>
+
+    <!--Bootstrap 4-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="jumbotron jumbotron-fluid bg-dark text-white">
+    <div class="container fluid fluid bg-dark">
+        <div class="fluid fluid bg-dark">
+            <h1>PID_SEP_v1</h1>
+            <form method="POST" th:action="@{/upload-csv-file}" enctype="multipart/form-data">
+                <div class="form-group mt-5  ">
+                    <label for="file">Select a CSV file</label>
+                    <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+                </div>
+                <button type="submit" class="btn btn-warning">Import file</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
